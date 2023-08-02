@@ -20,6 +20,7 @@ def get_env_variable(var_name):
 app = Flask(__name__)
 app.secret_key = get_env_variable("SECRET_KEY")
 hcaptcha_secret = get_env_variable("HCAPTCHA_SECRET")
+hcaptcha_site_key = get_env_variable("HCAPTCHA_SITE_KEY")
 
 
 def lookup_well_known(server_name):
@@ -135,4 +136,4 @@ async def sso_callback():
 
 
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=8080, debug=True)
+    app.run(host='127.0.0.1', port=8080, debug=False)

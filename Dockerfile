@@ -1,6 +1,8 @@
 # Use an official Python runtime as a parent image
 FROM python:3.11-slim-bookworm
 
+RUN apt-get update && apt-get install uwsgi --assume-yes && rm -rfv /var/lib/apt/*
+
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1

@@ -52,7 +52,7 @@ async def token_login(base_url, token):
 
 @app.route('/')
 def index():
-    return render_template('mxid_form.html')
+    return render_template('mxid_form.html', site_key=hcaptcha_site_key)
 
 
 @app.route('/login', methods=['POST'])

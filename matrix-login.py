@@ -94,7 +94,7 @@ def process_login():
     if 'm.login.sso' in login_types and 'm.login.token' in login_types:
         login_type = "sso"
     else:
-        error_message: "Server doesn't support SSO login! Can't login."
+        error_message = "Server doesn't support SSO login! Can't login."
         return render_template('error.html', error_message=error_message)
 
     if login_type == "sso":

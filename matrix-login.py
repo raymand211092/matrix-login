@@ -5,10 +5,11 @@ from aiohttp import ClientSession, TCPConnector
 import json
 import re
 import urllib.parse
+import logging
+import sys
 from flask import Flask, request, redirect, render_template, session
 
 load_dotenv()
-
 
 def get_env_variable(var_name):
     value = os.getenv(var_name)
@@ -37,13 +38,14 @@ async def token_login(base_url, token):
         r = await session.post(f"{base_url}/_matrix/client/r0/login", json={"type": "m.login.token", "token": token})
         if r.status != 200:
             error_message = await r.text()
-            print(f"Failed to login: {r.status} {error_message}")
+            logging.error(f"Failed to login: {r.status} {error_message}")
             return {"error": f"Failed to login: {r.status} {error_message}"}
         else:
             data = await r.json()
+            logging.log(f"Token Login data: {data}")
             return data
     except Exception as e:
-        print(f"Failed to login: {e}")
+        logging.error(f"Failed to login: {e}")
         error_message = f"Failure, {e}"
         return render_template("error.html", error_message=error_message)
     finally:
@@ -136,4 +138,5 @@ async def sso_callback():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     app.run(host='127.0.0.1', port=8080, debug=False)
